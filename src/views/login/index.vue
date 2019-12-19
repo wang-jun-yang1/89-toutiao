@@ -69,10 +69,25 @@ export default {
     // 提交我的登录表单
     submitLogin () {
       // el-form实例
-      this.$refs.myForm.validate(function (isok) {
+      this.$refs.myForm.validate((isok) => {
         if (isok) {
           // 认为前端校验格式正确
-          console.log('校验成功')
+          // 地址参数 查询参数 params 对象
+          // body参数 data对象
+          this.$axios({
+            url: '/authorizations', // 请求地址
+            method: 'post',
+            data: this.loginForm
+          }).then(result => {
+            window.localStorage.setItem('user-token', result.data.data.token)// 前端缓存令牌
+            // 成功之后才会进入到then
+            this.$router.push('/home')// 跳转到主页
+          }).catch(() => {
+            this.$message({
+              message: '手机号或验证码错误',
+              type: 'warning'
+            })
+          })
         }
       })
     }
