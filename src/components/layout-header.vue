@@ -11,10 +11,10 @@
 <el-col class="right" :span="4">
     <el-row type='flex' justify="end" align="middle">
 
-       <img src="./111.jpg" alt="">
+       <img :src="!userInfo.photo ? userInfo.photo : defaultImg" alt="">
         <!-- 下拉菜单 -->
         <el-dropdown>
-        <span>啦啦lala</span>
+        <span>{{userInfo.name}}</span>
         <!-- 下拉菜单 具名插槽 -->
         <el-dropdown-menu slot="dropdown">
             <el-dropdown-item>个人信息</el-dropdown-item>
@@ -30,7 +30,25 @@
 
 <script>
 export default {
-
+  data () {
+    return {
+      userInfo: {}, // 用户信息
+      defaultImg: require('.././assets/img/ktm.jpg')
+    }
+  },
+  created () {
+    let token = window.localStorage.getItem('user-token')// 获取令牌
+    // 查询数据
+    this.$axios({
+      url: '/user/profile',
+      // headers参数
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    }).then(result => {
+      this.userInfo = result.data.data
+    })
+  }
 }
 </script>
 
