@@ -2,18 +2,24 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/home'
 import Login from '../views/login'
-
+import Hometo from '../views/home/home'
 Vue.use(VueRouter)
 
 const routes = [
   {
+    // 强制跳转
     path: '/',
     redirect: '/home'
   },
   {
+    // 主页
     path: '/home',
     name: 'home',
-    component: Home
+    component: Home,
+    children: [{
+      path: '',
+      component: Hometo
+    }]
   }, {
     // 登录页
     path: '/login',
