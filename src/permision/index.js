@@ -3,6 +3,8 @@ import router from '../router'
 // 全局前置守卫
 router.beforeEach(function (to, from, next) {
   // 拦截哪个 判断拦截地址
+//   也可以先用不等于login来判断
+// if(to.path!=='/login'){
   if (to.path.startsWith('/home')) {
     // 进行权限判断 判断有无token 如果有token 放过 如果没有 会到登录页
     let token = window.localStorage.getItem('user-token')
