@@ -19,6 +19,10 @@ const routes = [
     children: [{
       path: '',
       component: Hometo
+    }, {
+      // 二级路由表
+      path: 'comment', // 完整地址，相对地址
+      component: () => import('../views/comment')// 按需加载
     }]
   }, {
     // 登录页
