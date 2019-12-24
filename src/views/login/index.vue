@@ -71,24 +71,26 @@ export default {
       // el-form实例
       this.$refs.myForm.validate((isok) => {
         if (isok) {
+          // console.log(1)
           // 认为前端校验格式正确
           // 地址参数 查询参数 params 对象
           // body参数 data对象
+
           this.$axios({
             url: '/authorizations', // 请求地址
             method: 'post',
             data: this.loginForm
           }).then(result => {
+            console.log(result)
             window.localStorage.setItem('user-token', result.data.token)// 前端缓存令牌
             // 成功之后才会进入到then
             this.$router.push('/home')// 跳转到主页
+          }).catch(() => {
+            this.$message({
+              message: '手机号或验证码错误',
+              type: 'warning'
+            })
           })
-          // .catch(() => {
-          //   this.$message({
-          //     message: '手机号或验证码错误',
-          //     type: 'warning'
-          //   })
-          // })
         }
       })
     }

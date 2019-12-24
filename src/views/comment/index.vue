@@ -24,9 +24,20 @@
          @click="openOrClose(obj.row)"
         >{{obj.row.comment_status ? '关闭评论': '打开评论'}}</el-button>
         </template>
-
       </el-table-column>
     </el-table>
+    <el-row type='flex' justify="center" align="middle" style="height:100px">
+      <!-- 分页组件 -->
+     <el-pagination
+  background
+  layout="prev, pager, next"
+  :total="page.total"
+  :current-page="page.currentPage"
+  :page-size="pageSize"
+  @current-change="changePage">
+</el-pagination>
+    </el-row>
+
   </el-card>
 </template>
 
@@ -34,16 +45,31 @@
 export default {
   data () {
     return {
-      list: []
+      list: [],
+      page: {
+        // 专门放置分页数据
+        total: 0, // 数据总条数
+        pageSize: 10, // 默认没页条数
+        currentPage: 1// 默认第一页
+      }
     }
   },
   methods: {
+    // 页码改变事件
+    changePage (newPage) {
+      this.page.currentPage = newPage
+      this.getComment()
+    },
     // 请求评论列表数据
     getComment () {
       // axios默认是get类型
       // query查询参数
-      this.$axios({ url: '/articles', params: { response_type: 'comment' } }).then(result => {
+      this.$axios({
+        url: '/articles',
+        params: { response_type: 'comment', page: this.page.currentPage, per_page: this.page.pageSize }
+      }).then(result => {
         this.list = result.data.results// 获取评论列表数据给本身data
+        this.page.total = result.data.total_count // 获取文章总数
       })
     },
     formatterBool (row, column, cellValue, index) {
@@ -61,7 +87,7 @@ export default {
         //  用户确定要调用接口
         // 地址参数、query参数、url参数、路由参数、 可以再paarams中写，也可以直接拼接到url地址上
         this.$axios({
-          methods: 'put',
+          method: 'put',
           url: '/comments/status',
           params: {
             article_id: row.id.toString()
@@ -70,6 +96,7 @@ export default {
             allow_comment: !row.comment_status
           }
         }).then(result => {
+          // console.log(result)
           this.$message({
             type: 'success',
             message: '操作成功'
