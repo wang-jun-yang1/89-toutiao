@@ -50,6 +50,32 @@
              </el-date-picker>
           </el-col>
       </el-row>
+     <el-row class="total">
+          <!-- 主体 -->
+      <span>共找到10000条内容</span>
+     </el-row>
+     <!-- 循环的模板 -->
+     <el-row v-for="item in 100" :key="item" class="article-item" type="flex" justify="space-between">
+         <!-- 左侧 -->
+         <el-col :span="14">
+             <el-row type="flex">
+                 <img src="../../assets/img/404.png" alt="">
+             <div class="info">
+                 <span>完全吻合气候</span>
+                 <el-tag class="tag">阿达</el-tag>
+                 <span class="date">2019-45-122</span>
+             </div>
+             </el-row>
+
+         </el-col>
+         <!-- 右侧 -->
+         <el-col :span="6">
+             <el-row class="right" type="flex" justify="end">
+                 <span><i class="el-icon-edit"></i>修改</span>
+                 <span><i class="el-icon-delete"></i>删除</span>
+             </el-row>
+         </el-col>
+     </el-row>
   </el-card>
 </template>
 
@@ -86,6 +112,42 @@ export default {
     .searchtool{
         height: 60px;
         padding-left:70px;
+    }
+    .total {
+        margin:40px 0px;
+        height: 40px;
+        border-bottom: 1px dashed #ccc;
+    }
+    .article-item{
+        margin: 20px 0px;
+        padding: 10px 0px;
+        border-bottom: 1px solid #f2f3f5;
+        img{
+            width: 180px;
+            height: 100px;
+            margin-right: 10px;
+            border-radius: 4px;
+        }
+        .info{
+            height: 100px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            .tag{
+            max-width: 100px;
+            }
+            .date{
+                color:#999;
+                font-size: 12px;
+            }
+        }
+        .right{
+            span{
+                margin-left: 10px;
+                font-size: 13px;
+                margin-top: 9px;
+            }
+        }
     }
 }
 </style>
