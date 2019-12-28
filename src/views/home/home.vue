@@ -11,7 +11,7 @@ export default {
 
 <style lang="less" scoped>
 .home{
-    background-image: url('../../assets/img/ktm.jpg');
+    background-image: url('../../assets/img/6.jpg');
     height: 100vh;
     background-size: cover;
 }

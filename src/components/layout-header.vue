@@ -5,7 +5,7 @@
 <el-col  class="left" :span="8">
 <!-- 左侧图标 -->
 <i class="el-icon-s-unfold"></i>
-<span class="title">突然发现我现在连十六个字都难说出口</span>
+<span class="title">如三月春花，四月除雪</span>
 </el-col>
 <!-- 右侧 -->
 <el-col class="right" :span="4">
@@ -33,7 +33,7 @@ export default {
   data () {
     return {
       userInfo: {}, // 用户信息
-      defaultImg: require('.././assets/img/ktm.jpg')
+      defaultImg: require('.././assets/img/3.jpg')
     }
   },
   created () {
