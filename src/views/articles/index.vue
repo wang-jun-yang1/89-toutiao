@@ -11,7 +11,7 @@
           <el-col :span="18">
               <!-- 0-草稿 1-待审核 2-审核通过 3-审核失败  不传为全部 -->
               <!-- 单选框组 -->
-            <el-radio-group v-model="formData.status">
+            <el-radio-group @change="changeCondition" v-model="formData.status">
                 <!-- 全部这个5是默认的，在传参的时候判断一下 是不是5 如果是 就传个null -->
               <el-radio :label="5">全部</el-radio>
               <el-radio :label="0">草稿</el-radio>
@@ -27,7 +27,7 @@
               <span>频道列表</span>
           </el-col>
           <el-col :span="18">
-            <el-select v-model="formData.channel_id">
+            <el-select @change="changeCondition" v-model="formData.channel_id">
                       <!-- 循环生成多个el-option
               lable指的是el-option显示值
               value指的是 el-option的存储值-->
@@ -41,6 +41,8 @@
           </el-col>
             <el-col :span="18">
              <el-date-picker
+             @change="changeCondition"
+             value-format="yyyy-MM-dd"
                v-model="formData.dateRange"
              type="daterange"
              range-separator="-"
@@ -87,7 +89,7 @@ export default {
       formData: {
         status: 5, // 状态
         channel_id: null, // 默认是空
-        dateRange: []
+        dateRange: [] // 默认为空数组
       },
       channels: [], // 定义一个channels接收频道
       list: [], // 接收文章列表数据
@@ -124,6 +126,18 @@ export default {
     }
   },
   methods: {
+    // 改变条件
+    changeCondition () {
+      // 组装条件
+      // 最新状态
+      let params = {
+        status: this.formData.status === 5 ? null : this.formData.status, // 不传为全部，2代表全部
+        channel_id: this.formData.channel_id, // 频道
+        begin_pubdate: this.formData.dateRange.length ? this.formData.dateRange[0] : null, // 起始时间
+        ebd_pubdate: this.formData.dateRange.length > 1 ? this.formData.dateRange[1] : null // 截止时间
+      }
+      this.getArticles(params) // 调用获取文章数据
+    },
     // 获取频道
     getChannels () {
       this.$axios({
@@ -133,9 +147,10 @@ export default {
       })
     },
     // 获取文章列表数据
-    getArticles () {
+    getArticles (params) {
       this.$axios({
-        url: '/articles'// 接受文章列表数据
+        url: '/articles', // 请求地址
+        params
       }).then(result => {
         this.list = result.data.results // 接受文章列表数据
       })
