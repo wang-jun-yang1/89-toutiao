@@ -24,7 +24,6 @@ axios.interceptors.response.use(function (response) {
   // 成功时执行
   return response.data ? response.data : { }// 解决data 不存在时 then中读取数据报错问题
 }, function (error) {
-  console.log(error)
   // 回调函数 所有的失败 都会进入到第二个回调函数
   // 失败时执行 状态码 不是200 或者201/204
   // 获取状态码 根据状态码 进行相应的提示或操作

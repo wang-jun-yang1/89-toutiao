@@ -11,7 +11,8 @@
           <el-col :span="18">
               <!-- 0-草稿 1-待审核 2-审核通过 3-审核失败  不传为全部 -->
               <!-- 单选框组 -->
-            <el-radio-group @change="changeCondition" v-model="formData.status">
+              <!-- 第一种方式用@change="changeCondition" 第二种用watch监听 -->
+            <el-radio-group @change="changeCondition"  v-model="formData.status">
                 <!-- 全部这个5是默认的，在传参的时候判断一下 是不是5 如果是 就传个null -->
               <el-radio :label="5">全部</el-radio>
               <el-radio :label="0">草稿</el-radio>
@@ -73,20 +74,22 @@
          <!-- 右侧 -->
          <el-col :span="6">
              <el-row class="right" type="flex" justify="end">
-                 <span><i class="el-icon-edit"></i>修改</span>
+                 <span @click="toModify(item.id)"><i class="el-icon-edit"></i>修改</span>
                  <span @click="delArticle(item.id)"><i class="el-icon-delete"></i>删除</span>
              </el-row>
          </el-col>
      </el-row>
     <!-- 分页组件 -->
     <el-row type="flex" justify="center" align="middle" style="height:60px">
+     <!-- 第一种方式用@change="changeCondition" 第二种用watch监听 -->
       <el-pagination
       background
       layout="prev,pager,next"
       :total="page.total"
       :current-page="page.currentPage"
       :page-size="page.pageSize"
-      @current-change="changePage">
+      @change="changeCondition"
+     >
 
       </el-pagination>
     </el-row>
@@ -142,6 +145,10 @@ export default {
     }
   },
   methods: {
+    // 修改文章
+    toModify (id) {
+      this.$router.push(`/home/publish/${id.toString()}`)// 到发布页面
+    },
     // 删除文章
     delArticle (id) {
       this.$confirm('是否删除文章').then(() => {
@@ -247,6 +254,7 @@ export default {
                 margin-left: 10px;
                 font-size: 13px;
                 margin-top: 9px;
+                cursor: pointer;
             }
         }
     }
