@@ -10,9 +10,9 @@
          <el-input v-model="formData.title" style="width:40%"></el-input>
         </el-form-item>
         <el-form-item prop="content" label="内容">
-          <el-input v-model="formData.content" style="width:40%"></el-input>
+          <quill-editor v-model="formData.content" style="height:400px" ></quill-editor>
         </el-form-item>
-        <el-form-item label="封面">
+        <el-form-item label="封面" style="margin-top:100px">
          <el-radio-group v-model="formData.cover.type">
            <!-- 单选组 v-model="封面类型" -->
             <el-radio :label="1">单图</el-radio>
