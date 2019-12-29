@@ -13,12 +13,12 @@
           <el-input v-model="formData.content" style="width:40%"></el-input>
         </el-form-item>
         <el-form-item label="封面">
-         <el-radio-group prop="type" v-model="formData.cover.type">
+         <el-radio-group v-model="formData.cover.type">
            <!-- 单选组 v-model="封面类型" -->
-            <el-radio label="1">单图</el-radio>
-            <el-radio label="3">三图</el-radio>
-            <el-radio label="0">无图</el-radio>
-            <el-radio label="-1">自动</el-radio>
+            <el-radio :label="1">单图</el-radio>
+            <el-radio :label="3">三图</el-radio>
+            <el-radio :label="0">无图</el-radio>
+            <el-radio :label="-1">自动</el-radio>
           </el-radio-group>
         </el-form-item>
         <el-form-item prop="channel_id" label="频道">
@@ -27,8 +27,8 @@
             </el-select>
         </el-form-item>
         <el-form-item>
-          <el-button @click="publishArticle" type="primary">发布</el-button>
-          <el-button  @click="publishArticle">存入草稿</el-button>
+          <el-button @click="publishArticle()" type="primary">发布</el-button>
+          <el-button  @click="publishArticle(true)">存入草稿</el-button>
         </el-form-item>
       </el-form>
   </el-card>
@@ -67,11 +67,19 @@ export default {
         this.channels = result.data.channels // 获取频道数据
       })
     },
-    publishArticle () {
-      this.$refs.publishForm.validate(function (isok) {
+    publishArticle (draft) {
+      this.$refs.publishForm.validate((isok) => {
         if (isok) {
           // 可以去进行 发布接口调用
-          alert('校验成功')
+          this.$axios({
+            url: '/articles',
+            method: 'post',
+            params: { draft }, // query参数
+            data: this.formData
+          }).then(() => {
+            // 新增成功 应该去内容列表
+            this.$router.push('/home/articles') // 回到内容列表
+          })
         }
       })
     }
