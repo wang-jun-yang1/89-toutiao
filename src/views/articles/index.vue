@@ -1,7 +1,7 @@
 <template>
   <el-card class="articles">
       <bread-crumb slot="header">
-      <template slot="title">文章列表</template>
+      <template slot="title">内容列表</template>
       </bread-crumb>
       <!-- el-row 行 -->
       <el-row class="searchtool">
@@ -29,7 +29,7 @@
           </el-col>
           <el-col :span="18">
             <el-select v-model="formData.channel_id">
-                      <!-- 循环生成多个el-option
+               <!-- 循环生成多个el-option
               lable指的是el-option显示值
               value指的是 el-option的存储值-->
                 <el-option  v-for="item in channels" :key="item.id" :label="item.name" :value="item.id"></el-option>
@@ -88,7 +88,7 @@
       :total="page.total"
       :current-page="page.currentPage"
       :page-size="page.pageSize"
-      @change="changeCondition"
+      @current-change="changePage"
      >
 
       </el-pagination>
@@ -168,6 +168,7 @@ export default {
     // 改变页码事件
     changePage (newPage) {
       // 赋值当前页码
+      debugger
       this.page.currentPage = newPage// 赋值当前页
       this.getConditionArticle()
     },
