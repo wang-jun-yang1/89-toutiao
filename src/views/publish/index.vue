@@ -22,7 +22,7 @@
           </el-radio-group>
         </el-form-item>
         <!-- 放置一个封面组件 -->
-        <cover-image :list="formData.cover.images"></cover-image>
+        <cover-image @clickOneImg="receiveImg" :list="formData.cover.images"></cover-image>
         <el-form-item prop="channel_id" label="频道">
             <el-select v-model="formData.channel_id">
               <el-option :value="item.id" v-for="item in channels" :key="item.id" :label="item.name"></el-option>
@@ -91,6 +91,21 @@ export default {
     // }
   },
   methods: {
+    receiveImg (img, index) {
+      // 接受数据之后 修改images数组  但是images是个数组
+
+      // this.formData.cover.images[index] = img // 直接修改数据
+      // vue响应式原理 响应式数据  数据发生变化（要能被vue监控到） 试图变化
+
+      // 原始写法  this.formData.cover.images = this.formData.cover.images.map(function (item, i) {
+      //   if (i === index) {
+      //     return img
+      //   }
+      //   return item
+      // })
+      // 简写：
+      this.formData.cover.images = this.formData.cover.images.map((item, i) => i === index ? img : item)
+    },
     changeType () {
       // 切换类型时触发
       if (this.formData.cover.type === 0 || this.formData.cover.type === -1) {
