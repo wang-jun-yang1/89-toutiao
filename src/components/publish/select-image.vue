@@ -20,7 +20,11 @@
               </el-pagination>
           </el-row>
       </el-tab-pane>
-      <el-tab-pane label="上传图片" name="uoload">上传图片</el-tab-pane>
+      <el-tab-pane label="上传图片" name="uoload">
+      <el-upload :http-request="uploadImg" class="upload" action="">
+         <i class="el-icon-plus"></i>
+      </el-upload>
+      </el-tab-pane>
   </el-tabs>
 </template>
 
@@ -38,6 +42,18 @@ export default {
     }
   },
   methods: {
+    // 上传图片
+    uploadImg (params) {
+      let data = new FormData()// 实例化一个对象
+      data.append('image', params.file)// 添加文件参数
+      this.$axios({
+        url: '/user/images',
+        method: 'post',
+        data
+      }).then(result => {
+        this.$emit('selectOneImg', result.data.url)
+      })
+    },
     clickImg (url) {
       // 需要将url地址传出去 $emit 自定义事件  携带参数
       this.$emit('selectOneImg', url)
@@ -80,6 +96,18 @@ export default {
                width: 100%;
                height: 100%;
            }
+    }
+}
+.upload{
+  display: flex;
+  justify-content: center;
+    i{
+      display: block;
+    font-size: 60px;
+    margin: 20px auto;
+    padding:10px;
+    border: 1px dashed #ccc;
+    border-radius: 4px;
     }
 }
 </style>

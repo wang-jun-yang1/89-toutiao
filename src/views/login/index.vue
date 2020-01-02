@@ -37,8 +37,8 @@ export default {
     return {
     //  定义一个表单数据对象
       loginForm: {
-        mobile: '', // 手机号
-        code: '', // 验证码
+        mobile: '13911111111', // 手机号
+        code: '246810', // 验证码
         check: false// 是否勾选
       },
       loginRules: {
