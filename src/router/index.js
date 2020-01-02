@@ -35,6 +35,9 @@ const routes = [
     }, {
       path: 'publish', // 此规则只匹配发布文章
       component: () => import('../views/publish')// 按需加载
+    }, {
+      path: 'account', // 账户信息
+      component: () => import('../views/account')// 按需加载
     }]
   }, {
     // 登录页
